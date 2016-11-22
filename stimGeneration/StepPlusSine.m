@@ -16,8 +16,8 @@ classdef StepPlusSine < AuditoryStimulus
         % StepPlusSine params
         stepStartPadDur     = 3;
         stepEndPadDur       = 3;
-        sineAmp             = 0.1;
-        stepAmp             = 2; 
+        sineAmp             = 1;
+        stepAmp             = 3; 
     end
     
     properties (Dependent = true, SetAccess = private)
@@ -30,7 +30,7 @@ classdef StepPlusSine < AuditoryStimulus
         %%------Calculate Dependents-----------------------------------------------------------------
         function stimulus = get.stimulus(obj)
             
-            stim1 = ForwardStep; 
+            stim1 = Step; 
             stim1.stepSize = obj.stepSize;
             stim1.stepDur = obj.stepDur;
             stim1.stepDirection = obj.stepDirection;
