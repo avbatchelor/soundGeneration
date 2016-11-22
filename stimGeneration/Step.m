@@ -1,4 +1,4 @@
-classdef BackwardStep < AuditoryStimulus
+classdef Step < AuditoryStimulus
     % Basic subclass for making square waves
     %
     % AVB 2015
@@ -6,6 +6,7 @@ classdef BackwardStep < AuditoryStimulus
     properties
         stepSize            = 1;
         stepDur             = 10;
+        stepDirection       = 'forward';
     end
     
     properties (Dependent = true, SetAccess = private)
@@ -22,8 +23,12 @@ classdef BackwardStep < AuditoryStimulus
             time = 0:1/obj.sampleRate:obj.stepDur-(1/obj.sampleRate);
             sw = ones(length(time),1);
 
+            stimulus = sw*obj.maxVoltage;
+            
             % Scale the stim to the maximum voltage in the amp
-            stimulus = -sw*obj.maxVoltage;
+            if strcmp(obj.stepDirection,'backward')
+                stimulus = -stimulus;
+            end    
             
             % Add pads
             stimulus = obj.addPad(stimulus);
