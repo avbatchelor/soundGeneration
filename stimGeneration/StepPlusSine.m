@@ -5,7 +5,7 @@ classdef StepPlusSine < AuditoryStimulus
     
     properties
         % Sine params 
-        carrierFreqHz       = 300;
+        carrierFreqHz       = 150;
         envelope            = 'cos-theta';
         sineDur             = 1;
         modulationDepth     = 1;
