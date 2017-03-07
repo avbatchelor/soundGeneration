@@ -5,14 +5,15 @@ classdef WindStimulus < AuditoryStimulus
     
     properties
         windDur             = 5;
+        odor                = '';
     end
     
     properties (SetAccess = private)
-        commandVoltage = 1
+        commandVoltage = 5
     end
 
     properties (Dependent = true, SetAccess = private)
-        stimulus
+        stimulus     
         description
     end
     

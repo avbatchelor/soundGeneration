@@ -5,8 +5,8 @@ classdef AuditoryStimulus < handle
     
     properties
         sampleRate      = 4E4;
-        startPadDur     = 3; % seconds
-        endPadDur       = 3; % seconds
+        startPadDur     = 0.5; % seconds
+        endPadDur       = 0.5; % seconds
         maxVoltage      = .05;
         speakerOrder    = {'L','M','R'}; % From fly's point of view
         speaker         = 2;

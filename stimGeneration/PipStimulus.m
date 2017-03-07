@@ -11,6 +11,8 @@ classdef PipStimulus < AuditoryStimulus
         numPips             = 10;
         pipDur              = 0.015;
         ipi                 = 0.034;
+        odor                = 'none';
+        envelopeRamp        = 10;
     end
     
     properties (Dependent = true, SetAccess = private)
@@ -49,7 +51,7 @@ classdef PipStimulus < AuditoryStimulus
                 case {'rampdown'}
                     modEnvelope = obj.modulationDepth*sawtooth(2*pi*[0:1/(2*(sampsPerPip-1)):.5],0)';
                 case {'cos-theta'}
-                    sampsPerRamp = floor(sampsPerPip/10);
+                    sampsPerRamp = floor(sampsPerPip/obj.envelopeRamp);
                     ramp = sin(linspace(0,pi/2,sampsPerRamp));
                     modEnvelope = [ramp,ones(1,sampsPerPip - sampsPerRamp*2),fliplr(ramp)]';
                 otherwise
