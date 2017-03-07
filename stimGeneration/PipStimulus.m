@@ -51,9 +51,16 @@ classdef PipStimulus < AuditoryStimulus
                 case {'rampdown'}
                     modEnvelope = obj.modulationDepth*sawtooth(2*pi*[0:1/(2*(sampsPerPip-1)):.5],0)';
                 case {'cos-theta'}
+                    % num samples per ramp can be at most half the number
+                    % of samps per pip 
+                    if obj.envelopeRamp<2
+                        obj.envelopeRamp = 2;
+                    end
                     sampsPerRamp = floor(sampsPerPip/obj.envelopeRamp);
                     ramp = sin(linspace(0,pi/2,sampsPerRamp));
-                    modEnvelope = [ramp,ones(1,sampsPerPip - sampsPerRamp*2),fliplr(ramp)]';
+                    modEnvelope = ones(size(pip));
+                    modEnvelope(1:sampsPerRamp) = ramp;
+                    modEnvelope(sampsPerPip-sampsPerRamp+1:sampsPerPip) = fliplr(ramp);
                 otherwise
                     error(['Envelope ' obj.Envelope ' not accounted for.']);
             end
