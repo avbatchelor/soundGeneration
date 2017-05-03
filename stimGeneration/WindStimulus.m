@@ -30,8 +30,6 @@ classdef WindStimulus < AuditoryStimulus
             stimulus = sw*obj.commandVoltage;
             
             % Add pads
-            obj.startPadDur         = 10; % seconds
-            obj.endPadDur           = 10; % seconds
             stimulus = obj.addPad(stimulus);
         end
         

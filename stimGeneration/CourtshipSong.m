@@ -4,6 +4,7 @@ classdef CourtshipSong < AuditoryStimulus
     % AVB 2015
     properties
         description     = 'Courtship song';
+        odor                = 'none';
     end
     
     properties (Dependent = true, SetAccess = private)
@@ -16,13 +17,13 @@ classdef CourtshipSong < AuditoryStimulus
             % Read in courtship song recording
             [stimulus, obj.sampleRate] = audioread('C:\Users\Alex\Documents\GitHub\soundGeneration\stimGeneration\courtshipSamps\LongCourtshipSong_Standard.wav');
             voltagePeak = max(abs(stimulus));
-            scalingFactor = obj.maxVoltage/voltagePeak; 
+            scalingFactor = obj.maxVoltage/voltagePeak;
             stimulus = stimulus.*scalingFactor;
             
             % Add pause at the beginning of of the stim
             stimulus = obj.addPad(stimulus);
         end
-       
+        
     end
     
 end
