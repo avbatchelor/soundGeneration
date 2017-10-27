@@ -11,6 +11,7 @@ classdef AuditoryStimulus < handle
         speakerOrder    = {'L','M','R'}; % From fly's point of view
         speaker         = 2;
         probe           = 'off';
+        state           = 'normal';
     end
     
     properties (Dependent = true, SetAccess = private)

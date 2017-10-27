@@ -8,6 +8,7 @@ classdef SineWave < AuditoryStimulus
         envelope            = 'cos-theta';
         sineDur             = 1;
         modulationDepth     = 1;
+        odor                = 'no odor';
     end
     
     properties (Dependent = true, SetAccess = private)
