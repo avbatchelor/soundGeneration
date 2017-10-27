@@ -7,6 +7,7 @@ classdef AmTone < AuditoryStimulus
         carrierFreqHz       = 300;
         envelope            = 'sinusoid';
         waveDur             = 5;
+        LED                 = 'off';
     end
     
     properties (Dependent = true, SetAccess = private)
