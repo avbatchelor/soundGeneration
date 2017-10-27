@@ -9,6 +9,7 @@ classdef SineWave < AuditoryStimulus
         sineDur             = 1;
         modulationDepth     = 1;
         LED                 = 'off';
+        odor                = 'no odor';
     end
     
     properties (Dependent = true, SetAccess = private)
