@@ -4,6 +4,7 @@ classdef noStimulus < AuditoryStimulus
     properties
         description     = 'No stimulus';
         waveDur         = 6;
+        LED             = 'off';
     end
     
     properties (Dependent = true, SetAccess = private)
