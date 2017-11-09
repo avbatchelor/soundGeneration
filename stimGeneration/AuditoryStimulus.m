@@ -12,6 +12,7 @@ classdef AuditoryStimulus < handle
         speaker         = 2;
         probe           = 'off';
         state           = 'normal';
+        speakerAngle    = 0;
     end
     
     properties (Dependent = true, SetAccess = private)
