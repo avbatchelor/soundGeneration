@@ -7,21 +7,22 @@ classdef AuditoryStimulus < handle
         sampleRate      = 4E4;
         startPadDur     = 2; % seconds
         endPadDur       = 2; % seconds
-        maxVoltage      = .05;
         speakerOrder    = {'L','M','R'}; % From fly's point of view
         speaker         = 2;
         probe           = 'off';
         state           = 'normal';
         speakerAngle    = 0;
+        speakerChannel  = 1;
     end
     
     properties (Dependent = true, SetAccess = private)
         totalDur
         stimDur
         timeVec
+        maxVoltage
     end
     
-    methods       
+    methods
         
         %%------Calculate Dependents-----------------------------------------------------------------
         function totalDur = get.totalDur(obj)
@@ -32,41 +33,47 @@ classdef AuditoryStimulus < handle
             stimDur = obj.totalDur - obj.startPadDur - obj.endPadDur;
         end
         
-        function timeVec = get.timeVec(obj) 
+        function timeVec = get.timeVec(obj)
             timeVec = (1/obj.sampleRate):(1/obj.sampleRate):(1*length(obj.stimulus)/obj.sampleRate);
         end
+        
+        function maxVoltage = get.maxVoltage(obj)
+            load('C:\Users\Alex\Documents\GitHub\soundGeneration\speakerLUT')
+            maxVoltage = eval(['speaker',num2str(obj.speaker),'Map(obj.carrierFreqHz)']);
+        end    
+        
             
-        %%------Common Utilities---------------------------------------------------------
-        function carrier = makeSine(obj,frequency,dur)
-            ts = (1/obj.sampleRate):(1/obj.sampleRate):(dur);
-            carrier = sin(2*pi*frequency*ts)';
-        end
-        
-        function static = makeStatic(obj,dur)
-            static = ones(obj.sampleRate*dur,1);
-        end
-        
-        function stimulus = addPad(obj,stimulus)
-            startPad = zeros(obj.sampleRate*obj.startPadDur,1);
-            endPad = zeros(obj.sampleRate*obj.endPadDur,1);
-            stimulus = [startPad;stimulus;endPad];
-        end
-        
-        
-        %%------Plotting--------------------------------------------------------------------
-        function [figHandle,plotHandle] = plot(obj,varargin)
-            fontSize = 14;
-            lineWidth = 1; 
-            figHandle = figure('Color',[1 1 1],'Name','AuditoryStimulus');
-            plotHandle = plot(obj.timeVec,obj.stimulus);
-            set(plotHandle,'LineWidth',lineWidth)
+            %%------Common Utilities---------------------------------------------------------
+            function carrier = makeSine(obj,frequency,dur)
+                ts = (1/obj.sampleRate):(1/obj.sampleRate):(dur);
+                carrier = sin(2*pi*frequency*ts)';
+            end
             
-            box off; axis on;
-            set(gca,'TickDir','Out')
-            title('Current Auditory Stimulus','FontSize',fontSize)
-            ylabel('Amplitude (V)','FontSize',fontSize)
-            xlabel('Time (seconds)','FontSize',fontSize)
+            function static = makeStatic(obj,dur)
+                static = ones(obj.sampleRate*dur,1);
+            end
+            
+            function stimulus = addPad(obj,stimulus)
+                startPad = zeros(obj.sampleRate*obj.startPadDur,1);
+                endPad = zeros(obj.sampleRate*obj.endPadDur,1);
+                stimulus = [startPad;stimulus;endPad];
+            end
+            
+            
+            %%------Plotting--------------------------------------------------------------------
+            function [figHandle,plotHandle] = plot(obj,varargin)
+                fontSize = 14;
+                lineWidth = 1;
+                figHandle = figure('Color',[1 1 1],'Name','AuditoryStimulus');
+                plotHandle = plot(obj.timeVec,obj.stimulus);
+                set(plotHandle,'LineWidth',lineWidth)
+                
+                box off; axis on;
+                set(gca,'TickDir','Out')
+                title('Current Auditory Stimulus','FontSize',fontSize)
+                ylabel('Amplitude (V)','FontSize',fontSize)
+                xlabel('Time (seconds)','FontSize',fontSize)
+            end
         end
+        
     end
-    
-end
