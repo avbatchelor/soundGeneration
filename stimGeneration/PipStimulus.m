@@ -19,9 +19,16 @@ classdef PipStimulus < AuditoryStimulus
         cyclesPerPip
         stimulus
         description 
+        maxVoltage
     end
     
+    
     methods
+        
+        function maxVoltage = get.maxVoltage(obj)
+            load('C:\Users\Alex\Documents\GitHub\soundGeneration\speakerLUT')
+            maxVoltage = eval(['speaker',num2str(obj.speaker),'Map(obj.carrierFreqHz)']);
+        end
        
         %%------Calculate Dependents-----------------------------------------------------------------
         function cyclesPerPip = get.cyclesPerPip(obj)

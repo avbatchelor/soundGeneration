@@ -1,4 +1,4 @@
-classdef SineWave < AuditoryStimulus
+classdef SineWaveVolSet < AuditoryStimulus
     % Basic subclass for making (amplitude modulated) sws
     %
     % SLH 2014
@@ -10,23 +10,17 @@ classdef SineWave < AuditoryStimulus
         modulationDepth     = 1;
         LED                 = 'off';
         odor                = 'no odor';
+        maxVoltage          = 1;
     end
     
     properties (Dependent = true, SetAccess = private)
         stimulus
         description
-        maxVoltage
     end
     
     methods
        
         %%------Calculate Dependents-----------------------------------------------------------------
-    
-        function maxVoltage = get.maxVoltage(obj)
-            load('C:\Users\Alex\Documents\GitHub\soundGeneration\speakerLUT')
-            maxVoltage = eval(['speaker',num2str(obj.speaker),'Map(obj.carrierFreqHz)']);
-        end
-        
         function stimulus = get.stimulus(obj)
             
             % Make sw
