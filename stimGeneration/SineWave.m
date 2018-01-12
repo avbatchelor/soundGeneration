@@ -23,6 +23,7 @@ classdef SineWave < AuditoryStimulus
         %%------Calculate Dependents-----------------------------------------------------------------
     
         function maxVoltage = get.maxVoltage(obj)
+            speakerLUT;
             load('C:\Users\Alex\Documents\GitHub\soundGeneration\speakerLUT')
             maxVoltage = eval(['speaker',num2str(obj.speaker),'Map(obj.carrierFreqHz)']);
         end
