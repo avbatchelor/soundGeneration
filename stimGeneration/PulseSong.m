@@ -6,6 +6,7 @@ classdef PulseSong < AuditoryStimulus
     properties
         description     = 'Pulse song';
         LED             = 'off';
+        maxVoltage          = 1;
     end
     
     properties (Dependent = true, SetAccess = private)

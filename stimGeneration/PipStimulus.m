@@ -6,10 +6,10 @@ classdef PipStimulus < AuditoryStimulus
     properties
         modulationDepth     = 1;
         modulationFreqHz    = 2;
-        carrierFreqHz       = 300;
-        envelope            = 'cos-theta';
+        carrierFreqHz       = 225;
+        envelope            = 'cosine';
         numPips             = 10;
-        pipDur              = 0.015;
+        approxPipDur        = 0.015;
         ipi                 = 0.034;
         odor                = 'none';
         envelopeRamp        = 10;
@@ -20,12 +20,14 @@ classdef PipStimulus < AuditoryStimulus
         stimulus
         description 
         maxVoltage
+        pipDur
     end
     
     
     methods
         
         function maxVoltage = get.maxVoltage(obj)
+            speakerLUT;
             load('C:\Users\Alex\Documents\GitHub\soundGeneration\speakerLUT')
             maxVoltage = eval(['speaker',num2str(obj.speaker),'Map(obj.carrierFreqHz)']);
         end
@@ -36,6 +38,11 @@ classdef PipStimulus < AuditoryStimulus
             if (mod(cyclesPerPip,0.5))~=0
                 error('numCyclesPerPip must be divisible by 0.5')
             end
+        end
+        
+        function pipDur = get.pipDur(obj)
+            halfWavelength = (1/obj.carrierFreqHz/2);
+            pipDur = round(obj.approxPipDur/halfWavelength)*halfWavelength;
         end
         
         function stimulus = get.stimulus(obj)
@@ -68,6 +75,8 @@ classdef PipStimulus < AuditoryStimulus
                     modEnvelope = ones(size(pip));
                     modEnvelope(1:sampsPerRamp) = ramp;
                     modEnvelope(sampsPerPip-sampsPerRamp+1:sampsPerPip) = fliplr(ramp);
+                case {'cosine'}
+                    modEnvelope = ((1-cos(linspace(0,2*pi,sampsPerPip)))/2)';
                 otherwise
                     error(['Envelope ' obj.Envelope ' not accounted for.']);
             end

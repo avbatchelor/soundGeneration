@@ -4,7 +4,8 @@ classdef CourtshipSong < AuditoryStimulus
     % AVB 2015
     properties
         description     = 'Courtship song';
-        odor                = 'none';
+        odor            = 'none';
+        maxVoltage      = 1;
     end
     
     properties (Dependent = true, SetAccess = private)
