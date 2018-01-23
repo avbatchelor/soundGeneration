@@ -27,8 +27,7 @@ classdef PipStimulus < AuditoryStimulus
     methods
         
         function maxVoltage = get.maxVoltage(obj)
-            speakerLUT;
-            load('C:\Users\Alex\Documents\GitHub\soundGeneration\speakerLUT')
+            [speaker1Map, speaker2Map, speaker3Map, speaker6Map] = speakerLUT;
             maxVoltage = eval(['speaker',num2str(obj.speaker),'Map(obj.carrierFreqHz)']);
         end
        

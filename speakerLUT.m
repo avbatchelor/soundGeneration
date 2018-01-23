@@ -1,4 +1,4 @@
-function speakerLUT
+function [speaker1Map, speaker2Map, speaker3Map, speaker6Map] = speakerLUT
 
 freqs = [100,140,200,225,300,500,800];
 
@@ -27,7 +27,5 @@ speaker1Map = containers.Map(freqs,speaker1);
 speaker2Map = containers.Map(freqs,speaker2);
 speaker3Map = containers.Map(freqs,speaker3);
 speaker6Map = containers.Map(freqs,speaker6);
-
-save('C:\Users\Alex\Documents\GitHub\soundGeneration\speakerLUT','speaker1Map','speaker2Map','speaker3Map','speaker6Map')
 
 end
