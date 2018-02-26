@@ -5,11 +5,12 @@ classdef SineWave < AuditoryStimulus
     
     properties
         carrierFreqHz       = 300;
-        envelope            = 'cos-theta';
-        sineDur             = 1;
+        envelope            = 'cosine';
+        sineDur             = 0.3216;
         modulationDepth     = 1;
         LED                 = 'off';
         odor                = 'no odor';
+        envelopeRamp        = 10;
     end
     
     properties (Dependent = true, SetAccess = private)
@@ -47,9 +48,23 @@ classdef SineWave < AuditoryStimulus
                 case {'rampdown'}
                     modEnvelope = obj.modulationDepth*sawtooth(2*pi*[0:1/(2*(sampsPersw-1)):.5],0)';
                 case {'cos-theta'}
-                    sampsPerRamp = floor(sampsPersw/10);
+                    % num samples per ramp can be at most half the number
+                    % of samps per pip 
+                    if obj.envelopeRamp<2
+                        obj.envelopeRamp = 2;
+                    end
+                    sampsPerRamp = floor(sampsPerPip/obj.envelopeRamp);
                     ramp = sin(linspace(0,pi/2,sampsPerRamp));
-                    modEnvelope = [ramp,ones(1,sampsPersw - sampsPerRamp*2),fliplr(ramp)]';
+                    modEnvelope = ones(size(pip));
+                    modEnvelope(1:sampsPerRamp) = ramp;
+                    modEnvelope(sampsPerPip-sampsPerRamp+1:sampsPerPip) = fliplr(ramp);
+                case {'cosine'}
+                    sampsPerPip = round(obj.sampleRate*0.0156);
+                    ramp = ((1-cos(linspace(0,pi,sampsPerPip)))/2)';
+                    sampsPerRamp = length(ramp);
+                    modEnvelope = ones(size(sw));
+                    modEnvelope(1:sampsPerRamp) = ramp;
+                    modEnvelope(sampsPersw-sampsPerRamp+1:sampsPersw) = flipud(ramp);
                 otherwise
                     error(['Envelope ' obj.Envelope ' not accounted for.']);
             end
